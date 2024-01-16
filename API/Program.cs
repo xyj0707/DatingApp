@@ -20,9 +20,9 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(builder => builder.AllowAnyHeader().WithOrigins("https://localhost:4200"));
 
-app.UseHttpsRedirection();//ask do you have a valid token
-app.UseAuthentication();// you have a valid token, things are allowed to do
-app.UseAuthorization();
+app.UseHttpsRedirection();
+app.UseAuthentication();//ask do you have a valid token
+app.UseAuthorization();// you have a valid token, things are allowed to do
 
 app.MapControllers();
 
