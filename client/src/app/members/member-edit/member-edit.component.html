@@ -62,16 +62,16 @@
           <h4 class="mt-2">Location Details:</h4>
           <div class="d-flex flex-row align-items-center">
             <label for="city">City:</label>
-            <input type="text" [(ngModel)]="member.city" name="city" class="form-control mx-2">
+            <input type="text" [(ngModel)]="member.city" name="city" class="form-control mx-2" id="city">
             <label for="country">Country:</label>
-            <input type="text" [(ngModel)]="member.country" name="country" class="form-control mx-2">
+            <input type="text" [(ngModel)]="member.country" name="country" class="form-control mx-2" id="country">
           </div>
         </form>
 
       </tab>
       <tab heading="Edit Photos">
+        <app-photo-editor [member]="member"></app-photo-editor>
 
-        <p>Photo edit will go here</p>
       </tab>
 
     </tabset>
