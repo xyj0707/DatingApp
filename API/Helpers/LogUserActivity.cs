@@ -17,7 +17,7 @@ namespace API.Helpers
             var userId = resultContext.HttpContext.User.GetUserId();
             // Get the IUserRepository service from the request services
             var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
-            var user = await repo.GetUserByIdAsync(int.Parse(userId));
+            var user = await repo.GetUserByIdAsync(userId);
             // Update the LastActive property of the user to the current UTC time
             user.LastActive = DateTime.UtcNow;
             // Save the changes to the repository
