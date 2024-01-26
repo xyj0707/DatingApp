@@ -3,6 +3,7 @@ using API.Data;
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -25,6 +26,10 @@ namespace API.Extensions
             services.AddScoped<LogUserActivity>();
             services.AddScoped<ILikesRepository, LikesRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddSignalR();
+            //only one instance of PresenceTracker is created for the entire lifetime of the application
+            //PresenceTracker maintains state or data that needs to be shared across different parts of the application
+            services.AddSingleton<PresenceTracker>();
             return services;
         }
     }

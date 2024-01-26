@@ -22,13 +22,13 @@ namespace API.Controllers
             _mapper = mapper;
         }
         [HttpPost]
-        public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createdMessageDto)
+        public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
             var username = User.GetUsername();
-            if (username == createdMessageDto.RecipientUsername.ToLower()) return BadRequest("You cannot send messages to yourself");
+            if (username == createMessageDto.RecipientUsername.ToLower()) return BadRequest("You cannot send messages to yourself");
 
             var sender = await _userRepository.GetUserByUsernameAsync(username);
-            var recipient = await _userRepository.GetUserByUsernameAsync(createdMessageDto.RecipientUsername);
+            var recipient = await _userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
 
             if (recipient == null) return NotFound();
 
@@ -38,7 +38,7 @@ namespace API.Controllers
                 Recipient = recipient,
                 SenderUsername = sender.UserName,
                 RecipientUsername = recipient.UserName,
-                Content = createdMessageDto.Content
+                Content = createMessageDto.Content
 
             };
 
@@ -71,7 +71,7 @@ namespace API.Controllers
 
             var message = await _messageRepository.GetMessage(id);
 
-            if (message.SenderUsername != username && message.RecipientUsername != username) 
+            if (message.SenderUsername != username && message.RecipientUsername != username)
                 return Unauthorized();
 
             if (message.SenderUsername == username) message.SenderDeleted = true;
