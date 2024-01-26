@@ -19,17 +19,18 @@ namespace API.Extensions
 
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            // services.AddScoped<IUserRepository, UserRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<LogUserActivity>();
-            services.AddScoped<ILikesRepository, LikesRepository>();
-            services.AddScoped<IMessageRepository, MessageRepository>();
+            // services.AddScoped<ILikesRepository, LikesRepository>();
+            // services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddSignalR();
             //only one instance of PresenceTracker is created for the entire lifetime of the application
             //PresenceTracker maintains state or data that needs to be shared across different parts of the application
             services.AddSingleton<PresenceTracker>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
     }

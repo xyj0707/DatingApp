@@ -41,10 +41,10 @@ namespace API.Data
 
         }
 
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
+        // public async Task<bool> SaveAllAsync()
+        // {
+        //     return await _context.SaveChangesAsync() > 0;
+        // }
 
         public void Update(AppUser user)
         {
@@ -79,6 +79,16 @@ namespace API.Data
         public async Task<MemberDto> GetMemberAsync(string username)
         {
             return await _context.Users.Where(x => x.UserName == username).ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+        }
+
+
+        // Retrieves the gender of a user based on the provided username from the database.
+        // Returns the gender as a string or null if the user is not found.
+        public async Task<string> GetUserGender(string username)
+        {
+            return await _context.Users
+                .Where(x => x.UserName == username)
+                .Select(x => x.Gender).FirstOrDefaultAsync();
         }
     }
 }

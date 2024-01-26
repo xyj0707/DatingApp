@@ -16,12 +16,12 @@ namespace API.Helpers
             // If the user is authenticated, get the username from the HttpContext
             var userId = resultContext.HttpContext.User.GetUserId();
             // Get the IUserRepository service from the request services
-            var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
-            var user = await repo.GetUserByIdAsync(userId);
+            var uow = resultContext.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+            var user = await uow.UserRepository.GetUserByIdAsync(userId);
             // Update the LastActive property of the user to the current UTC time
             user.LastActive = DateTime.UtcNow;
             // Save the changes to the repository
-            await repo.SaveAllAsync();
+            await uow.Complete();
 
         }
     }
