@@ -45,8 +45,8 @@
                   class="form-control input-sm"
                   placeholder="Send a private message">
               <div class="input-group-append">
-                  <button class="btn btn-primary" type="submit"[disabled]="!messageForm.valid">
-                      Send
+                  <button class="btn btn-primary" type="submit"[disabled]="!messageForm.valid || loading">
+                      Send <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
                   </button>
               </div>
           </div>
