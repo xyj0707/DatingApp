@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { ToastrService } from 'ngx-toastr';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 
@@ -18,7 +17,7 @@ export class RegisterComponent implements OnInit {
   maxDate:Date = new Date();
   validationErrors: string[] | undefined;
 
-  constructor(private accountService:AccountService,private toastr: ToastrService, private fb:FormBuilder, private router:Router) {}
+  constructor(private accountService:AccountService, private fb:FormBuilder, private router:Router) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -45,7 +44,7 @@ export class RegisterComponent implements OnInit {
 
   matchValues(matchTo:string):ValidatorFn{
     return(control:AbstractControl)=>{
-      return control.value === control.parent?.get(matchTo)?.value? null:{notMatching:true}
+      return control?.value === control?.parent?.get(matchTo)?.value? null:{notMatching:true}
     }
 
   }
@@ -53,13 +52,20 @@ export class RegisterComponent implements OnInit {
 
   register(){
     const dob = this.getDateOnly(this.registerForm.controls['dateOfBirth'].value);
+
     const values = {...this.registerForm.value,dateOfBirth:dob};
+    // console.log('formvalue:', JSON.stringify(values, null, 2));
     this.accountService.register(values).subscribe({
-      next:() =>{
+      next:(response) =>{
 
         this.router.navigateByUrl('/members')
       },
-      error:error => this.validationErrors = error
+      error:(error:any) => {
+        // console.log(error);
+        const errorArray = error.error as Array<{ code: string, description: string }>;
+        this.validationErrors = errorArray ? errorArray.map(e => e.description) : ['An unexpected error occurred.'];
+
+      }
     })
 
   }
